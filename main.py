@@ -22,8 +22,9 @@ def search_markers_in_file(file_path, markers):
                 for marker in markers:
                     if marker in line:
                         idx = line.find(marker)
+                        main_part = line[:idx].rstrip()
                         marker_text = line[idx:].strip()
-                        results.append((i, marker_text))
+                        results.append((i, main_part, marker_text))
                         break
 
     except Exception as e:
@@ -42,8 +43,8 @@ def main():
     )
     parser.add_argument(
         "--markers",
-        default="markers.yaml",
-        help="Путь к YAML файлу с маркерами (по умолчанию: markers.yaml)"
+        default="markers.yml",
+        help="Путь к YML файлу с маркерами (по умолчанию: markers.yml)"
     )
     args = parser.parse_args()
 
@@ -70,16 +71,19 @@ def main():
 
     if found_files:
         for file_path, occurrences in found_files.items():
-            output_buffer.append(f"🔵 Пометки в файле: {file_path}")
-            for line_no, content in occurrences:
-                output_buffer.append(f"🔴 Строка {line_no}: {content}")
+            output_buffer.append(f"<h2> 🔵 Пометки в файле: {file_path}</h2>")
+            for line_no, main_part, marker_text in occurrences:
+                output_buffer.append(f"🔴 Строка {line_no}<br />")
+                output_buffer.append(f"🟡 Основная часть: {main_part}<br />")
+                output_buffer.append(f"🟢 Пометка: {marker_text}<br />")
 
             output_buffer.append("<hr>")
 
+        final_report = "\n".join(output_buffer)
         summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary_file:
-            with open(summary_file, "a", encoding="utf-8") as f:
-                f.write(output_buffer + "\n")
+            with open("report.md", "a", encoding="utf-8") as f:
+                f.write(final_report + "\n")
 
     else:
         print("Пометки не найдены.")
