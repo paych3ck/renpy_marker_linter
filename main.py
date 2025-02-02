@@ -82,7 +82,7 @@ def main():
         final_report = "\n".join(output_buffer)
         summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary_file:
-            with open("report.md", "a", encoding="utf-8") as f:
+            with open(summary_file, "a", encoding="utf-8") as f:
                 f.write(final_report + "\n")
 
     else:
