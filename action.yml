@@ -1,0 +1,18 @@
+name: "Renpy Marker Linter"
+description: "Проверяет наличие маркеров в файлах проекта"
+inputs:
+  folder:
+    description: "Путь к папке с кодом проекта"
+    required: true
+    type: string
+  markers:
+    description: "Путь к файлу маркеров"
+    required: false
+    type: string
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.folder }}
+    - --markers
+    - ${{ inputs.markers}}
