@@ -76,8 +76,7 @@ def main():
                 output_buffer.append(f"🔴 Строка {line_no}<br />")
                 output_buffer.append(f"🟡 Основная часть: {main_part}<br />")
                 output_buffer.append(f"🟢 Пометка: {marker_text}<br />")
-
-            output_buffer.append("<hr>")
+                output_buffer.append("<hr>")
 
         final_report = "\n".join(output_buffer)
         summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
