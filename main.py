@@ -80,14 +80,14 @@ def main():
                 output_buffer.append(f"🟢 Пометка: {marker_text}<br />")
                 output_buffer.append("<hr>")
 
-        final_report = "\n".join(output_buffer)
-        summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
-        if summary_file:
-            with open(summary_file, "a", encoding="utf-8") as f:
-                f.write(final_report + "\n")
-
     else:
-        print("Пометки не найдены.")
+        output_buffer.append("<h2> 🔵 Пометки не найдены</h2>")
+
+    final_report = "\n".join(output_buffer)
+    summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_file:
+        with open(summary_file, "a", encoding="utf-8") as f:
+            f.write(final_report + "\n")
 
 
 if __name__ == "__main__":
